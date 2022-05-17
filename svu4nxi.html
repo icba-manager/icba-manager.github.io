@@ -1,0 +1,116 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 750px;
+            background-color: #222222;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": "white"}, "id": "Sturm", "label": "Sturm", "shape": "dot", "title": "Sturm Neighbors:\u003cbr\u003eCaramon\u003cbr\u003eTasslehoff\u003cbr\u003eTheobald\u003cbr\u003eKitiara\u003cbr\u003eRaistlin\u003cbr\u003eOtik\u003cbr\u003eTanis\u003cbr\u003eJudith\u003cbr\u003eFlint", "value": 9}, {"font": {"color": "white"}, "id": "Tasslehoff", "label": "Tasslehoff", "shape": "dot", "title": "Tasslehoff Neighbors:\u003cbr\u003eCaramon\u003cbr\u003eKitiara\u003cbr\u003eRaistlin\u003cbr\u003eOtik\u003cbr\u003eSturm\u003cbr\u003eTanis\u003cbr\u003eJudith\u003cbr\u003eFlint", "value": 8}, {"font": {"color": "white"}, "id": "Tanis", "label": "Tanis", "shape": "dot", "title": "Tanis Neighbors:\u003cbr\u003eCaramon\u003cbr\u003eTasslehoff\u003cbr\u003eKitiara\u003cbr\u003eRaistlin\u003cbr\u003eOtik\u003cbr\u003eSturm\u003cbr\u003eJudith\u003cbr\u003eFlint", "value": 8}, {"font": {"color": "white"}, "id": "Flint", "label": "Flint", "shape": "dot", "title": "Flint Neighbors:\u003cbr\u003eCaramon\u003cbr\u003eTasslehoff\u003cbr\u003eKitiara\u003cbr\u003eRaistlin\u003cbr\u003eOtik\u003cbr\u003eSturm\u003cbr\u003eTanis", "value": 7}, {"font": {"color": "white"}, "id": "Raistlin", "label": "Raistlin", "shape": "dot", "title": "Raistlin Neighbors:\u003cbr\u003eRosamun\u003cbr\u003eCaramon\u003cbr\u003eTakhisis\u003cbr\u003eLemuel\u003cbr\u003eTasslehoff\u003cbr\u003eTheobald\u003cbr\u003eFistandantilus\u003cbr\u003eKitiara\u003cbr\u003eOtik\u003cbr\u003eSalian\u003cbr\u003eSturm\u003cbr\u003eTanis\u003cbr\u003eJudith\u003cbr\u003eAntimodes\u003cbr\u003eFlint", "value": 15}, {"font": {"color": "white"}, "id": "Caramon", "label": "Caramon", "shape": "dot", "title": "Caramon Neighbors:\u003cbr\u003eRosamun\u003cbr\u003eLemuel\u003cbr\u003eTasslehoff\u003cbr\u003eTheobald\u003cbr\u003eFistandantilus\u003cbr\u003eKitiara\u003cbr\u003eRaistlin\u003cbr\u003eOtik\u003cbr\u003eSalian\u003cbr\u003eSturm\u003cbr\u003eTanis\u003cbr\u003eJudith\u003cbr\u003eFlint", "value": 13}, {"font": {"color": "white"}, "id": "Kitiara", "label": "Kitiara", "shape": "dot", "title": "Kitiara Neighbors:\u003cbr\u003eRosamun\u003cbr\u003eCaramon\u003cbr\u003eTasslehoff\u003cbr\u003eTheobald\u003cbr\u003eOtik\u003cbr\u003eRaistlin\u003cbr\u003eSturm\u003cbr\u003eTanis\u003cbr\u003eJudith\u003cbr\u003eAntimodes\u003cbr\u003eFlint", "value": 11}, {"font": {"color": "white"}, "id": "Fistandantilus", "label": "Fistandantilus", "shape": "dot", "title": "Fistandantilus Neighbors:\u003cbr\u003eSalian\u003cbr\u003eCaramon\u003cbr\u003eRaistlin", "value": 3}, {"font": {"color": "white"}, "id": "Antimodes", "label": "Antimodes", "shape": "dot", "title": "Antimodes Neighbors:\u003cbr\u003eTheobald\u003cbr\u003eKitiara\u003cbr\u003eRaistlin\u003cbr\u003eOtik\u003cbr\u003eSalian", "value": 5}, {"font": {"color": "white"}, "id": "Salian", "label": "Salian", "shape": "dot", "title": "Salian Neighbors:\u003cbr\u003eCaramon\u003cbr\u003eTakhisis\u003cbr\u003eTheobald\u003cbr\u003eFistandantilus\u003cbr\u003eRaistlin\u003cbr\u003eAntimodes\u003cbr\u003eLadonna", "value": 7}, {"font": {"color": "white"}, "id": "Otik", "label": "Otik", "shape": "dot", "title": "Otik Neighbors:\u003cbr\u003eRosamun\u003cbr\u003eCaramon\u003cbr\u003eTasslehoff\u003cbr\u003eKitiara\u003cbr\u003eRaistlin\u003cbr\u003eSturm\u003cbr\u003eTanis\u003cbr\u003eJudith\u003cbr\u003eAntimodes\u003cbr\u003eFlint", "value": 10}, {"font": {"color": "white"}, "id": "Theobald", "label": "Theobald", "shape": "dot", "title": "Theobald Neighbors:\u003cbr\u003eCaramon\u003cbr\u003eLemuel\u003cbr\u003eKitiara\u003cbr\u003eRaistlin\u003cbr\u003eSalian\u003cbr\u003eSturm\u003cbr\u003eJudith\u003cbr\u003eAntimodes", "value": 8}, {"font": {"color": "white"}, "id": "Ladonna", "label": "Ladonna", "shape": "dot", "title": "Ladonna Neighbors:\u003cbr\u003eSalian\u003cbr\u003eTakhisis", "value": 2}, {"font": {"color": "white"}, "id": "Takhisis", "label": "Takhisis", "shape": "dot", "title": "Takhisis Neighbors:\u003cbr\u003eSalian\u003cbr\u003eRaistlin\u003cbr\u003eLadonna", "value": 3}, {"font": {"color": "white"}, "id": "Rosamun", "label": "Rosamun", "shape": "dot", "title": "Rosamun Neighbors:\u003cbr\u003eCaramon\u003cbr\u003eKitiara\u003cbr\u003eOtik\u003cbr\u003eRaistlin\u003cbr\u003eJudith", "value": 5}, {"font": {"color": "white"}, "id": "Judith", "label": "Judith", "shape": "dot", "title": "Judith Neighbors:\u003cbr\u003eRosamun\u003cbr\u003eCaramon\u003cbr\u003eLemuel\u003cbr\u003eTasslehoff\u003cbr\u003eTheobald\u003cbr\u003eKitiara\u003cbr\u003eOtik\u003cbr\u003eRaistlin\u003cbr\u003eSturm\u003cbr\u003eTanis", "value": 10}, {"font": {"color": "white"}, "id": "Lemuel", "label": "Lemuel", "shape": "dot", "title": "Lemuel Neighbors:\u003cbr\u003eTheobald\u003cbr\u003eCaramon\u003cbr\u003eJudith\u003cbr\u003eRaistlin", "value": 4}]);
+        edges = new vis.DataSet([{"from": "Sturm", "to": "Tasslehoff", "value": 22}, {"from": "Sturm", "to": "Tanis", "value": 26}, {"from": "Flint", "to": "Sturm", "value": 23}, {"from": "Raistlin", "to": "Sturm", "value": 54}, {"from": "Caramon", "to": "Sturm", "value": 78}, {"from": "Tanis", "to": "Tasslehoff", "value": 26}, {"from": "Flint", "to": "Tasslehoff", "value": 29}, {"from": "Raistlin", "to": "Tasslehoff", "value": 28}, {"from": "Caramon", "to": "Tasslehoff", "value": 16}, {"from": "Flint", "to": "Tanis", "value": 69}, {"from": "Raistlin", "to": "Tanis", "value": 65}, {"from": "Caramon", "to": "Tanis", "value": 45}, {"from": "Flint", "to": "Raistlin", "value": 39}, {"from": "Caramon", "to": "Flint", "value": 31}, {"from": "Caramon", "to": "Raistlin", "value": 298}, {"from": "Kitiara", "to": "Raistlin", "value": 56}, {"from": "Fistandantilus", "to": "Raistlin", "value": 16}, {"from": "Antimodes", "to": "Salian", "value": 8}, {"from": "Antimodes", "to": "Otik", "value": 5}, {"from": "Kitiara", "to": "Otik", "value": 6}, {"from": "Antimodes", "to": "Kitiara", "value": 2}, {"from": "Caramon", "to": "Kitiara", "value": 45}, {"from": "Antimodes", "to": "Raistlin", "value": 11}, {"from": "Otik", "to": "Raistlin", "value": 5}, {"from": "Salian", "to": "Theobald", "value": 8}, {"from": "Ladonna", "to": "Salian", "value": 3}, {"from": "Salian", "to": "Takhisis", "value": 3}, {"from": "Ladonna", "to": "Takhisis", "value": 1}, {"from": "Raistlin", "to": "Salian", "value": 15}, {"from": "Raistlin", "to": "Rosamun", "value": 20}, {"from": "Caramon", "to": "Rosamun", "value": 13}, {"from": "Kitiara", "to": "Rosamun", "value": 7}, {"from": "Raistlin", "to": "Theobald", "value": 60}, {"from": "Antimodes", "to": "Theobald", "value": 7}, {"from": "Caramon", "to": "Theobald", "value": 8}, {"from": "Judith", "to": "Raistlin", "value": 48}, {"from": "Caramon", "to": "Judith", "value": 22}, {"from": "Judith", "to": "Rosamun", "value": 9}, {"from": "Otik", "to": "Rosamun", "value": 3}, {"from": "Judith", "to": "Kitiara", "value": 3}, {"from": "Otik", "to": "Tanis", "value": 8}, {"from": "Caramon", "to": "Otik", "value": 8}, {"from": "Sturm", "to": "Theobald", "value": 1}, {"from": "Judith", "to": "Otik", "value": 1}, {"from": "Judith", "to": "Theobald", "value": 1}, {"from": "Kitiara", "to": "Theobald", "value": 1}, {"from": "Flint", "to": "Otik", "value": 5}, {"from": "Flint", "to": "Kitiara", "value": 14}, {"from": "Kitiara", "to": "Tanis", "value": 34}, {"from": "Kitiara", "to": "Tasslehoff", "value": 3}, {"from": "Kitiara", "to": "Sturm", "value": 10}, {"from": "Raistlin", "to": "Takhisis", "value": 1}, {"from": "Lemuel", "to": "Theobald", "value": 3}, {"from": "Lemuel", "to": "Raistlin", "value": 45}, {"from": "Caramon", "to": "Lemuel", "value": 4}, {"from": "Judith", "to": "Sturm", "value": 4}, {"from": "Judith", "to": "Lemuel", "value": 2}, {"from": "Judith", "to": "Tanis", "value": 3}, {"from": "Judith", "to": "Tasslehoff", "value": 1}, {"from": "Otik", "to": "Sturm", "value": 1}, {"from": "Otik", "to": "Tasslehoff", "value": 1}, {"from": "Caramon", "to": "Salian", "value": 8}, {"from": "Caramon", "to": "Fistandantilus", "value": 2}, {"from": "Fistandantilus", "to": "Salian", "value": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
