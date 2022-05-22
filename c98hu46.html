@@ -1,0 +1,116 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 750px;
+            background-color: #222222;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": "white"}, "id": "Elrond", "label": "Elrond", "shape": "dot", "title": "Elrond Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eMerry\u003cbr\u003eGaladriel\u003cbr\u003eBilbo\u003cbr\u003eFrodo\u003cbr\u003eEnemy\u003cbr\u003eSaruman\u003cbr\u003ePippin\u003cbr\u003eGlorfindel\u003cbr\u003eIsildur\u003cbr\u003eRiders\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eBoromir\u003cbr\u003eGollum\u003cbr\u003eGandalf\u003cbr\u003eSam", "value": 17}, {"font": {"color": "white"}, "id": "Gandalf", "label": "Gandalf", "shape": "dot", "title": "Gandalf Neighbors:\u003cbr\u003eMerry\u003cbr\u003eTom\u003cbr\u003eAragorn\u003cbr\u003ePippin\u003cbr\u003eEnemy\u003cbr\u003eBilbo\u003cbr\u003eGaladriel\u003cbr\u003eSaruman\u003cbr\u003eGlorfindel\u003cbr\u003eIsildur\u003cbr\u003eRiders\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eBoromir\u003cbr\u003eGollum\u003cbr\u003eFrodo\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 18}, {"font": {"color": "white"}, "id": "Bilbo", "label": "Bilbo", "shape": "dot", "title": "Bilbo Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eMerry\u003cbr\u003eTom\u003cbr\u003ePippin\u003cbr\u003eFrodo\u003cbr\u003eEnemy\u003cbr\u003eSaruman\u003cbr\u003eIsildur\u003cbr\u003eRiders\u003cbr\u003eLegolas\u003cbr\u003eBoromir\u003cbr\u003eGollum\u003cbr\u003eGandalf\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 15}, {"font": {"color": "white"}, "id": "Frodo", "label": "Frodo", "shape": "dot", "title": "Frodo Neighbors:\u003cbr\u003eSaruman\u003cbr\u003eGlorfindel\u003cbr\u003eBoromir\u003cbr\u003eGandalf\u003cbr\u003eHaldir\u003cbr\u003eSam\u003cbr\u003eAragorn\u003cbr\u003ePippin\u003cbr\u003eEnemy\u003cbr\u003eRiders\u003cbr\u003eGimli\u003cbr\u003eTom\u003cbr\u003eLegolas\u003cbr\u003eElrond\u003cbr\u003eMerry\u003cbr\u003eGaladriel\u003cbr\u003eBilbo\u003cbr\u003eIsildur\u003cbr\u003eGollum", "value": 19}, {"font": {"color": "white"}, "id": "Gollum", "label": "Gollum", "shape": "dot", "title": "Gollum Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eFrodo\u003cbr\u003eBilbo\u003cbr\u003eEnemy\u003cbr\u003eSaruman\u003cbr\u003eIsildur\u003cbr\u003eRiders\u003cbr\u003eLegolas\u003cbr\u003eBoromir\u003cbr\u003eGandalf\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 12}, {"font": {"color": "white"}, "id": "Aragorn", "label": "Aragorn", "shape": "dot", "title": "Aragorn Neighbors:\u003cbr\u003eMerry\u003cbr\u003ePippin\u003cbr\u003eFrodo\u003cbr\u003eBilbo\u003cbr\u003eGaladriel\u003cbr\u003eSaruman\u003cbr\u003eEnemy\u003cbr\u003eGlorfindel\u003cbr\u003eIsildur\u003cbr\u003eRiders\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eHaldir\u003cbr\u003eBoromir\u003cbr\u003eGollum\u003cbr\u003eGandalf\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 18}, {"font": {"color": "white"}, "id": "Galadriel", "label": "Galadriel", "shape": "dot", "title": "Galadriel Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eSam\u003cbr\u003eFrodo\u003cbr\u003eEnemy\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eGandalf\u003cbr\u003eHaldir\u003cbr\u003eElrond", "value": 9}, {"font": {"color": "white"}, "id": "Sam", "label": "Sam", "shape": "dot", "title": "Sam Neighbors:\u003cbr\u003eMerry\u003cbr\u003eTom\u003cbr\u003eAragorn\u003cbr\u003ePippin\u003cbr\u003eEnemy\u003cbr\u003eFrodo\u003cbr\u003eBilbo\u003cbr\u003eGaladriel\u003cbr\u003eGlorfindel\u003cbr\u003eRiders\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eBoromir\u003cbr\u003eGollum\u003cbr\u003eGandalf\u003cbr\u003eHaldir\u003cbr\u003eElrond", "value": 17}, {"font": {"color": "white"}, "id": "Merry", "label": "Merry", "shape": "dot", "title": "Merry Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eTom\u003cbr\u003ePippin\u003cbr\u003eFrodo\u003cbr\u003eBilbo\u003cbr\u003eEnemy\u003cbr\u003eGlorfindel\u003cbr\u003eElrond\u003cbr\u003eRiders\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eBoromir\u003cbr\u003eGandalf\u003cbr\u003eSam\u003cbr\u003eHaldir", "value": 15}, {"font": {"color": "white"}, "id": "Pippin", "label": "Pippin", "shape": "dot", "title": "Pippin Neighbors:\u003cbr\u003eMerry\u003cbr\u003eTom\u003cbr\u003eAragorn\u003cbr\u003eFrodo\u003cbr\u003eBilbo\u003cbr\u003eGlorfindel\u003cbr\u003eRiders\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eHaldir\u003cbr\u003eBoromir\u003cbr\u003eGandalf\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 14}, {"font": {"color": "white"}, "id": "Enemy", "label": "Enemy", "shape": "dot", "title": "Enemy Neighbors:\u003cbr\u003eMerry\u003cbr\u003eAragorn\u003cbr\u003eGaladriel\u003cbr\u003eFrodo\u003cbr\u003eBilbo\u003cbr\u003eSaruman\u003cbr\u003eGlorfindel\u003cbr\u003eIsildur\u003cbr\u003eRiders\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eHaldir\u003cbr\u003eBoromir\u003cbr\u003eGollum\u003cbr\u003eGandalf\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 17}, {"font": {"color": "white"}, "id": "Saruman", "label": "Saruman", "shape": "dot", "title": "Saruman Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eEnemy\u003cbr\u003eBilbo\u003cbr\u003eGlorfindel\u003cbr\u003eIsildur\u003cbr\u003eRiders\u003cbr\u003eGandalf\u003cbr\u003eBoromir\u003cbr\u003eGollum\u003cbr\u003eFrodo\u003cbr\u003eElrond", "value": 11}, {"font": {"color": "white"}, "id": "Isildur", "label": "Isildur", "shape": "dot", "title": "Isildur Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eEnemy\u003cbr\u003eBilbo\u003cbr\u003eSaruman\u003cbr\u003eGandalf\u003cbr\u003eLegolas\u003cbr\u003eBoromir\u003cbr\u003eGollum\u003cbr\u003eFrodo\u003cbr\u003eElrond", "value": 10}, {"font": {"color": "white"}, "id": "Riders", "label": "Riders", "shape": "dot", "title": "Riders Neighbors:\u003cbr\u003eMerry\u003cbr\u003eTom\u003cbr\u003eAragorn\u003cbr\u003ePippin\u003cbr\u003eBilbo\u003cbr\u003eEnemy\u003cbr\u003eSaruman\u003cbr\u003eGlorfindel\u003cbr\u003eGandalf\u003cbr\u003eGollum\u003cbr\u003eFrodo\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 13}, {"font": {"color": "white"}, "id": "Tom", "label": "Tom", "shape": "dot", "title": "Tom Neighbors:\u003cbr\u003eMerry\u003cbr\u003ePippin\u003cbr\u003eFrodo\u003cbr\u003eBilbo\u003cbr\u003eRiders\u003cbr\u003eGandalf\u003cbr\u003eSam", "value": 7}, {"font": {"color": "white"}, "id": "Glorfindel", "label": "Glorfindel", "shape": "dot", "title": "Glorfindel Neighbors:\u003cbr\u003eMerry\u003cbr\u003eAragorn\u003cbr\u003ePippin\u003cbr\u003eFrodo\u003cbr\u003eEnemy\u003cbr\u003eSaruman\u003cbr\u003eRiders\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eGandalf\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 12}, {"font": {"color": "white"}, "id": "Legolas", "label": "Legolas", "shape": "dot", "title": "Legolas Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eMerry\u003cbr\u003ePippin\u003cbr\u003eBilbo\u003cbr\u003eEnemy\u003cbr\u003eGaladriel\u003cbr\u003eGlorfindel\u003cbr\u003eIsildur\u003cbr\u003eGandalf\u003cbr\u003eGimli\u003cbr\u003eHaldir\u003cbr\u003eBoromir\u003cbr\u003eGollum\u003cbr\u003eFrodo\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 16}, {"font": {"color": "white"}, "id": "Gimli", "label": "Gimli", "shape": "dot", "title": "Gimli Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eMerry\u003cbr\u003ePippin\u003cbr\u003eEnemy\u003cbr\u003eGaladriel\u003cbr\u003eGlorfindel\u003cbr\u003eLegolas\u003cbr\u003eGandalf\u003cbr\u003eHaldir\u003cbr\u003eBoromir\u003cbr\u003eFrodo\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 13}, {"font": {"color": "white"}, "id": "Boromir", "label": "Boromir", "shape": "dot", "title": "Boromir Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eMerry\u003cbr\u003ePippin\u003cbr\u003eEnemy\u003cbr\u003eBilbo\u003cbr\u003eSaruman\u003cbr\u003eIsildur\u003cbr\u003eGandalf\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eGollum\u003cbr\u003eFrodo\u003cbr\u003eSam\u003cbr\u003eElrond", "value": 14}, {"font": {"color": "white"}, "id": "Haldir", "label": "Haldir", "shape": "dot", "title": "Haldir Neighbors:\u003cbr\u003eAragorn\u003cbr\u003eMerry\u003cbr\u003ePippin\u003cbr\u003eEnemy\u003cbr\u003eGaladriel\u003cbr\u003eLegolas\u003cbr\u003eGimli\u003cbr\u003eFrodo\u003cbr\u003eSam", "value": 9}]);
+        edges = new vis.DataSet([{"from": "Elrond", "to": "Gandalf", "value": 23}, {"from": "Bilbo", "to": "Frodo", "value": 99}, {"from": "Bilbo", "to": "Gandalf", "value": 39}, {"from": "Bilbo", "to": "Gollum", "value": 23}, {"from": "Frodo", "to": "Gollum", "value": 13}, {"from": "Elrond", "to": "Gollum", "value": 2}, {"from": "Elrond", "to": "Frodo", "value": 26}, {"from": "Bilbo", "to": "Elrond", "value": 12}, {"from": "Frodo", "to": "Gandalf", "value": 88}, {"from": "Aragorn", "to": "Frodo", "value": 40}, {"from": "Aragorn", "to": "Bilbo", "value": 3}, {"from": "Elrond", "to": "Galadriel", "value": 2}, {"from": "Frodo", "to": "Sam", "value": 162}, {"from": "Bilbo", "to": "Sam", "value": 19}, {"from": "Gandalf", "to": "Gollum", "value": 6}, {"from": "Frodo", "to": "Merry", "value": 61}, {"from": "Frodo", "to": "Pippin", "value": 74}, {"from": "Merry", "to": "Pippin", "value": 54}, {"from": "Bilbo", "to": "Pippin", "value": 8}, {"from": "Bilbo", "to": "Merry", "value": 10}, {"from": "Enemy", "to": "Frodo", "value": 15}, {"from": "Enemy", "to": "Gandalf", "value": 7}, {"from": "Gollum", "to": "Saruman", "value": 3}, {"from": "Bilbo", "to": "Saruman", "value": 2}, {"from": "Gandalf", "to": "Sam", "value": 20}, {"from": "Frodo", "to": "Isildur", "value": 2}, {"from": "Gollum", "to": "Isildur", "value": 3}, {"from": "Bilbo", "to": "Isildur", "value": 1}, {"from": "Frodo", "to": "Saruman", "value": 5}, {"from": "Enemy", "to": "Gollum", "value": 4}, {"from": "Enemy", "to": "Isildur", "value": 1}, {"from": "Enemy", "to": "Sam", "value": 4}, {"from": "Bilbo", "to": "Enemy", "value": 3}, {"from": "Elrond", "to": "Sam", "value": 7}, {"from": "Merry", "to": "Sam", "value": 41}, {"from": "Gandalf", "to": "Pippin", "value": 11}, {"from": "Gandalf", "to": "Merry", "value": 9}, {"from": "Pippin", "to": "Sam", "value": 70}, {"from": "Pippin", "to": "Riders", "value": 5}, {"from": "Enemy", "to": "Riders", "value": 2}, {"from": "Frodo", "to": "Riders", "value": 27}, {"from": "Riders", "to": "Sam", "value": 3}, {"from": "Bilbo", "to": "Riders", "value": 4}, {"from": "Enemy", "to": "Merry", "value": 1}, {"from": "Gandalf", "to": "Riders", "value": 8}, {"from": "Merry", "to": "Riders", "value": 4}, {"from": "Merry", "to": "Tom", "value": 5}, {"from": "Frodo", "to": "Tom", "value": 18}, {"from": "Riders", "to": "Tom", "value": 3}, {"from": "Gandalf", "to": "Tom", "value": 1}, {"from": "Bilbo", "to": "Tom", "value": 1}, {"from": "Sam", "to": "Tom", "value": 1}, {"from": "Pippin", "to": "Tom", "value": 1}, {"from": "Elrond", "to": "Enemy", "value": 10}, {"from": "Elrond", "to": "Glorfindel", "value": 9}, {"from": "Gandalf", "to": "Glorfindel", "value": 3}, {"from": "Frodo", "to": "Glorfindel", "value": 12}, {"from": "Glorfindel", "to": "Sam", "value": 3}, {"from": "Aragorn", "to": "Elrond", "value": 10}, {"from": "Glorfindel", "to": "Merry", "value": 1}, {"from": "Glorfindel", "to": "Pippin", "value": 2}, {"from": "Glorfindel", "to": "Riders", "value": 3}, {"from": "Aragorn", "to": "Riders", "value": 3}, {"from": "Aragorn", "to": "Gandalf", "value": 14}, {"from": "Aragorn", "to": "Glorfindel", "value": 2}, {"from": "Elrond", "to": "Riders", "value": 1}, {"from": "Glorfindel", "to": "Legolas", "value": 1}, {"from": "Gimli", "to": "Glorfindel", "value": 1}, {"from": "Elrond", "to": "Legolas", "value": 2}, {"from": "Gimli", "to": "Legolas", "value": 19}, {"from": "Frodo", "to": "Legolas", "value": 21}, {"from": "Elrond", "to": "Gimli", "value": 2}, {"from": "Frodo", "to": "Gimli", "value": 18}, {"from": "Boromir", "to": "Elrond", "value": 6}, {"from": "Boromir", "to": "Gandalf", "value": 11}, {"from": "Boromir", "to": "Isildur", "value": 5}, {"from": "Elrond", "to": "Isildur", "value": 3}, {"from": "Aragorn", "to": "Isildur", "value": 5}, {"from": "Boromir", "to": "Frodo", "value": 40}, {"from": "Aragorn", "to": "Boromir", "value": 31}, {"from": "Boromir", "to": "Enemy", "value": 9}, {"from": "Elrond", "to": "Saruman", "value": 4}, {"from": "Enemy", "to": "Saruman", "value": 4}, {"from": "Gandalf", "to": "Isildur", "value": 1}, {"from": "Gandalf", "to": "Saruman", "value": 5}, {"from": "Isildur", "to": "Saruman", "value": 2}, {"from": "Boromir", "to": "Saruman", "value": 5}, {"from": "Aragorn", "to": "Gollum", "value": 5}, {"from": "Boromir", "to": "Gollum", "value": 1}, {"from": "Gollum", "to": "Legolas", "value": 3}, {"from": "Gandalf", "to": "Legolas", "value": 3}, {"from": "Riders", "to": "Saruman", "value": 2}, {"from": "Gollum", "to": "Riders", "value": 2}, {"from": "Enemy", "to": "Glorfindel", "value": 1}, {"from": "Glorfindel", "to": "Saruman", "value": 1}, {"from": "Bilbo", "to": "Boromir", "value": 2}, {"from": "Elrond", "to": "Pippin", "value": 5}, {"from": "Bilbo", "to": "Legolas", "value": 2}, {"from": "Aragorn", "to": "Legolas", "value": 17}, {"from": "Isildur", "to": "Legolas", "value": 1}, {"from": "Aragorn", "to": "Sam", "value": 17}, {"from": "Gimli", "to": "Sam", "value": 12}, {"from": "Aragorn", "to": "Saruman", "value": 1}, {"from": "Boromir", "to": "Pippin", "value": 10}, {"from": "Boromir", "to": "Gimli", "value": 11}, {"from": "Gimli", "to": "Pippin", "value": 6}, {"from": "Boromir", "to": "Legolas", "value": 14}, {"from": "Legolas", "to": "Pippin", "value": 8}, {"from": "Legolas", "to": "Merry", "value": 8}, {"from": "Boromir", "to": "Merry", "value": 9}, {"from": "Gandalf", "to": "Gimli", "value": 11}, {"from": "Boromir", "to": "Sam", "value": 15}, {"from": "Aragorn", "to": "Gimli", "value": 10}, {"from": "Aragorn", "to": "Merry", "value": 6}, {"from": "Aragorn", "to": "Pippin", "value": 5}, {"from": "Gimli", "to": "Merry", "value": 6}, {"from": "Legolas", "to": "Sam", "value": 11}, {"from": "Aragorn", "to": "Haldir", "value": 3}, {"from": "Haldir", "to": "Legolas", "value": 8}, {"from": "Haldir", "to": "Pippin", "value": 1}, {"from": "Haldir", "to": "Merry", "value": 1}, {"from": "Frodo", "to": "Haldir", "value": 9}, {"from": "Enemy", "to": "Legolas", "value": 2}, {"from": "Enemy", "to": "Gimli", "value": 1}, {"from": "Gimli", "to": "Haldir", "value": 4}, {"from": "Enemy", "to": "Haldir", "value": 1}, {"from": "Galadriel", "to": "Haldir", "value": 2}, {"from": "Frodo", "to": "Galadriel", "value": 7}, {"from": "Galadriel", "to": "Gandalf", "value": 2}, {"from": "Aragorn", "to": "Galadriel", "value": 2}, {"from": "Enemy", "to": "Galadriel", "value": 1}, {"from": "Galadriel", "to": "Sam", "value": 2}, {"from": "Elrond", "to": "Merry", "value": 2}, {"from": "Galadriel", "to": "Legolas", "value": 2}, {"from": "Aragorn", "to": "Enemy", "value": 3}, {"from": "Galadriel", "to": "Gimli", "value": 2}, {"from": "Haldir", "to": "Sam", "value": 1}, {"from": "Gollum", "to": "Sam", "value": 2}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
