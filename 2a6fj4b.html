@@ -1,0 +1,116 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 750px;
+            background-color: #222222;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": "white"}, "id": "Elistan", "label": "Elistan", "shape": "dot", "title": "Elistan Neighbors:\u003cbr\u003eSturm\u003cbr\u003eTika\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eGunthar\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eFizban\u003cbr\u003eRaistlin\u003cbr\u003ePaladine\u003cbr\u003eGilthanas\u003cbr\u003eCaramon\u003cbr\u003eTas", "value": 14}, {"font": {"color": "white"}, "id": "Paladine", "label": "Paladine", "shape": "dot", "title": "Paladine Neighbors:\u003cbr\u003eSturm\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eGunthar\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eGilthanas", "value": 10}, {"font": {"color": "white"}, "id": "Sturm", "label": "Sturm", "shape": "dot", "title": "Sturm Neighbors:\u003cbr\u003eTika\u003cbr\u003eKitiara\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eGunthar\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eFizban\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eTheros\u003cbr\u003ePaladine\u003cbr\u003eGilthanas\u003cbr\u003eCaramon\u003cbr\u003eTas", "value": 16}, {"font": {"color": "white"}, "id": "Tanis", "label": "Tanis", "shape": "dot", "title": "Tanis Neighbors:\u003cbr\u003eSturm\u003cbr\u003eKitiara\u003cbr\u003eTika\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eGunthar\u003cbr\u003eLorac\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eFizban\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eTheros\u003cbr\u003ePaladine\u003cbr\u003eGilthanas\u003cbr\u003eCaramon\u003cbr\u003eTas", "value": 17}, {"font": {"color": "white"}, "id": "Flint", "label": "Flint", "shape": "dot", "title": "Flint Neighbors:\u003cbr\u003eSturm\u003cbr\u003eTika\u003cbr\u003eDerek\u003cbr\u003eGunthar\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eFizban\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eTheros\u003cbr\u003ePaladine\u003cbr\u003eGilthanas\u003cbr\u003eCaramon\u003cbr\u003eTas", "value": 15}, {"font": {"color": "white"}, "id": "Raistlin", "label": "Raistlin", "shape": "dot", "title": "Raistlin Neighbors:\u003cbr\u003eSturm\u003cbr\u003eTika\u003cbr\u003eKitiara\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eLorac\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eFizban\u003cbr\u003eElistan\u003cbr\u003eTheros\u003cbr\u003ePaladine\u003cbr\u003eGilthanas\u003cbr\u003eCaramon\u003cbr\u003eTas", "value": 16}, {"font": {"color": "white"}, "id": "Caramon", "label": "Caramon", "shape": "dot", "title": "Caramon Neighbors:\u003cbr\u003eSturm\u003cbr\u003eTika\u003cbr\u003eKitiara\u003cbr\u003eFlint\u003cbr\u003eLorac\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eGilthanas\u003cbr\u003eTas", "value": 12}, {"font": {"color": "white"}, "id": "Laurana", "label": "Laurana", "shape": "dot", "title": "Laurana Neighbors:\u003cbr\u003eSturm\u003cbr\u003eKitiara\u003cbr\u003eTika\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eGunthar\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eFizban\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eTheros\u003cbr\u003ePaladine\u003cbr\u003eGilthanas\u003cbr\u003eCaramon\u003cbr\u003eTas", "value": 16}, {"font": {"color": "white"}, "id": "Kitiara", "label": "Kitiara", "shape": "dot", "title": "Kitiara Neighbors:\u003cbr\u003eSturm\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eRaistlin\u003cbr\u003eCaramon", "value": 6}, {"font": {"color": "white"}, "id": "Gilthanas", "label": "Gilthanas", "shape": "dot", "title": "Gilthanas Neighbors:\u003cbr\u003eSturm\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eFizban\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eTheros\u003cbr\u003ePaladine\u003cbr\u003eCaramon\u003cbr\u003eTas", "value": 13}, {"font": {"color": "white"}, "id": "Tika", "label": "Tika", "shape": "dot", "title": "Tika Neighbors:\u003cbr\u003eSturm\u003cbr\u003eFlint\u003cbr\u003eLorac\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eCaramon\u003cbr\u003eTas", "value": 10}, {"font": {"color": "white"}, "id": "Tas", "label": "Tas", "shape": "dot", "title": "Tas Neighbors:\u003cbr\u003eSturm\u003cbr\u003eTika\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eGunthar\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eFizban\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eTheros\u003cbr\u003eGilthanas\u003cbr\u003eCaramon", "value": 14}, {"font": {"color": "white"}, "id": "Alhana", "label": "Alhana", "shape": "dot", "title": "Alhana Neighbors:\u003cbr\u003eSturm\u003cbr\u003eTika\u003cbr\u003eDerek\u003cbr\u003eKitiara\u003cbr\u003eFlint\u003cbr\u003eGunthar\u003cbr\u003eLorac\u003cbr\u003eTanis\u003cbr\u003eLaurana\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003ePaladine\u003cbr\u003eGilthanas\u003cbr\u003eCaramon\u003cbr\u003eTas", "value": 15}, {"font": {"color": "white"}, "id": "Fizban", "label": "Fizban", "shape": "dot", "title": "Fizban Neighbors:\u003cbr\u003eSturm\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eGunthar\u003cbr\u003eTanis\u003cbr\u003eLaurana\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eGilthanas\u003cbr\u003eTas", "value": 10}, {"font": {"color": "white"}, "id": "Derek", "label": "Derek", "shape": "dot", "title": "Derek Neighbors:\u003cbr\u003eSturm\u003cbr\u003eFlint\u003cbr\u003eGunthar\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eFizban\u003cbr\u003eElistan\u003cbr\u003eRaistlin\u003cbr\u003eTheros\u003cbr\u003ePaladine\u003cbr\u003eGilthanas\u003cbr\u003eTas", "value": 13}, {"font": {"color": "white"}, "id": "Lorac", "label": "Lorac", "shape": "dot", "title": "Lorac Neighbors:\u003cbr\u003eTika\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eRaistlin\u003cbr\u003eCaramon", "value": 5}, {"font": {"color": "white"}, "id": "Theros", "label": "Theros", "shape": "dot", "title": "Theros Neighbors:\u003cbr\u003eSturm\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eGunthar\u003cbr\u003eTanis\u003cbr\u003eLaurana\u003cbr\u003eRaistlin\u003cbr\u003eGilthanas\u003cbr\u003eTas", "value": 9}, {"font": {"color": "white"}, "id": "Gunthar", "label": "Gunthar", "shape": "dot", "title": "Gunthar Neighbors:\u003cbr\u003eSturm\u003cbr\u003eDerek\u003cbr\u003eFlint\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eLaurana\u003cbr\u003eFizban\u003cbr\u003eElistan\u003cbr\u003eTheros\u003cbr\u003ePaladine\u003cbr\u003eTas", "value": 11}]);
+        edges = new vis.DataSet([{"from": "Elistan", "to": "Paladine", "value": 15}, {"from": "Sturm", "to": "Tanis", "value": 94}, {"from": "Elistan", "to": "Tanis", "value": 30}, {"from": "Flint", "to": "Tanis", "value": 27}, {"from": "Paladine", "to": "Sturm", "value": 6}, {"from": "Raistlin", "to": "Tanis", "value": 103}, {"from": "Raistlin", "to": "Sturm", "value": 25}, {"from": "Paladine", "to": "Raistlin", "value": 2}, {"from": "Elistan", "to": "Raistlin", "value": 8}, {"from": "Flint", "to": "Raistlin", "value": 10}, {"from": "Caramon", "to": "Raistlin", "value": 74}, {"from": "Laurana", "to": "Tanis", "value": 83}, {"from": "Laurana", "to": "Sturm", "value": 106}, {"from": "Elistan", "to": "Laurana", "value": 52}, {"from": "Elistan", "to": "Sturm", "value": 16}, {"from": "Laurana", "to": "Raistlin", "value": 23}, {"from": "Kitiara", "to": "Laurana", "value": 22}, {"from": "Laurana", "to": "Paladine", "value": 8}, {"from": "Paladine", "to": "Tanis", "value": 2}, {"from": "Kitiara", "to": "Tanis", "value": 28}, {"from": "Caramon", "to": "Tanis", "value": 75}, {"from": "Caramon", "to": "Sturm", "value": 9}, {"from": "Gilthanas", "to": "Laurana", "value": 50}, {"from": "Gilthanas", "to": "Tanis", "value": 20}, {"from": "Laurana", "to": "Tika", "value": 2}, {"from": "Tanis", "to": "Tika", "value": 16}, {"from": "Elistan", "to": "Tika", "value": 2}, {"from": "Caramon", "to": "Tika", "value": 29}, {"from": "Raistlin", "to": "Tika", "value": 16}, {"from": "Caramon", "to": "Flint", "value": 7}, {"from": "Tanis", "to": "Tas", "value": 28}, {"from": "Flint", "to": "Sturm", "value": 49}, {"from": "Flint", "to": "Tas", "value": 33}, {"from": "Sturm", "to": "Tas", "value": 23}, {"from": "Laurana", "to": "Tas", "value": 43}, {"from": "Sturm", "to": "Tika", "value": 3}, {"from": "Caramon", "to": "Tas", "value": 4}, {"from": "Flint", "to": "Tika", "value": 6}, {"from": "Tas", "to": "Tika", "value": 6}, {"from": "Raistlin", "to": "Tas", "value": 8}, {"from": "Gilthanas", "to": "Sturm", "value": 27}, {"from": "Caramon", "to": "Gilthanas", "value": 1}, {"from": "Caramon", "to": "Laurana", "value": 12}, {"from": "Caramon", "to": "Elistan", "value": 6}, {"from": "Gilthanas", "to": "Raistlin", "value": 3}, {"from": "Elistan", "to": "Gilthanas", "value": 11}, {"from": "Kitiara", "to": "Raistlin", "value": 5}, {"from": "Alhana", "to": "Tas", "value": 1}, {"from": "Flint", "to": "Gilthanas", "value": 14}, {"from": "Fizban", "to": "Raistlin", "value": 2}, {"from": "Caramon", "to": "Kitiara", "value": 4}, {"from": "Alhana", "to": "Tanis", "value": 48}, {"from": "Alhana", "to": "Gilthanas", "value": 8}, {"from": "Alhana", "to": "Sturm", "value": 28}, {"from": "Derek", "to": "Sturm", "value": 85}, {"from": "Alhana", "to": "Flint", "value": 2}, {"from": "Alhana", "to": "Derek", "value": 1}, {"from": "Derek", "to": "Tanis", "value": 6}, {"from": "Derek", "to": "Tas", "value": 7}, {"from": "Flint", "to": "Laurana", "value": 42}, {"from": "Gilthanas", "to": "Tas", "value": 5}, {"from": "Elistan", "to": "Flint", "value": 4}, {"from": "Alhana", "to": "Caramon", "value": 7}, {"from": "Alhana", "to": "Raistlin", "value": 4}, {"from": "Alhana", "to": "Laurana", "value": 3}, {"from": "Alhana", "to": "Lorac", "value": 12}, {"from": "Alhana", "to": "Tika", "value": 1}, {"from": "Lorac", "to": "Tanis", "value": 11}, {"from": "Lorac", "to": "Raistlin", "value": 10}, {"from": "Kitiara", "to": "Sturm", "value": 8}, {"from": "Caramon", "to": "Lorac", "value": 3}, {"from": "Lorac", "to": "Tika", "value": 1}, {"from": "Alhana", "to": "Kitiara", "value": 1}, {"from": "Elistan", "to": "Tas", "value": 4}, {"from": "Fizban", "to": "Flint", "value": 5}, {"from": "Derek", "to": "Flint", "value": 9}, {"from": "Derek", "to": "Laurana", "value": 25}, {"from": "Derek", "to": "Raistlin", "value": 1}, {"from": "Flint", "to": "Paladine", "value": 1}, {"from": "Gilthanas", "to": "Paladine", "value": 2}, {"from": "Derek", "to": "Paladine", "value": 2}, {"from": "Derek", "to": "Gilthanas", "value": 9}, {"from": "Derek", "to": "Elistan", "value": 5}, {"from": "Sturm", "to": "Theros", "value": 5}, {"from": "Laurana", "to": "Theros", "value": 36}, {"from": "Tas", "to": "Theros", "value": 8}, {"from": "Gilthanas", "to": "Theros", "value": 16}, {"from": "Flint", "to": "Theros", "value": 7}, {"from": "Tanis", "to": "Theros", "value": 4}, {"from": "Raistlin", "to": "Theros", "value": 1}, {"from": "Derek", "to": "Theros", "value": 1}, {"from": "Fizban", "to": "Tas", "value": 26}, {"from": "Fizban", "to": "Laurana", "value": 12}, {"from": "Fizban", "to": "Gilthanas", "value": 1}, {"from": "Gunthar", "to": "Sturm", "value": 42}, {"from": "Derek", "to": "Gunthar", "value": 22}, {"from": "Fizban", "to": "Gunthar", "value": 4}, {"from": "Fizban", "to": "Sturm", "value": 3}, {"from": "Derek", "to": "Fizban", "value": 1}, {"from": "Gunthar", "to": "Tas", "value": 4}, {"from": "Alhana", "to": "Gunthar", "value": 2}, {"from": "Alhana", "to": "Paladine", "value": 1}, {"from": "Gunthar", "to": "Paladine", "value": 3}, {"from": "Alhana", "to": "Elistan", "value": 1}, {"from": "Elistan", "to": "Gunthar", "value": 12}, {"from": "Elistan", "to": "Fizban", "value": 2}, {"from": "Gunthar", "to": "Laurana", "value": 14}, {"from": "Fizban", "to": "Tanis", "value": 1}, {"from": "Flint", "to": "Gunthar", "value": 1}, {"from": "Gunthar", "to": "Theros", "value": 2}, {"from": "Gunthar", "to": "Tanis", "value": 2}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
