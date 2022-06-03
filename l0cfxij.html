@@ -1,0 +1,116 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vis-network@latest/styles/vis-network.css" type="text/css" />
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vis-network@latest/dist/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 750px;
+            background-color: #222222;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": "white"}, "id": "Dumbledore", "label": "Dumbledore", "shape": "dot", "title": "Dumbledore Neighbors:\u003cbr\u003eRon\u003cbr\u003eMalfoy\u003cbr\u003eVoldemort\u003cbr\u003eSnape\u003cbr\u003eHagrid\u003cbr\u003eHermione\u003cbr\u003eSirius\u003cbr\u003eNeville\u003cbr\u003eMcGonagall\u003cbr\u003eGrindelwald\u003cbr\u003eHarry", "value": 11}, {"font": {"color": "white"}, "id": "Voldemort", "label": "Voldemort", "shape": "dot", "title": "Voldemort Neighbors:\u003cbr\u003eRon\u003cbr\u003eDumbledore\u003cbr\u003eSnape\u003cbr\u003eHagrid\u003cbr\u003eHermione\u003cbr\u003eMcGonagall\u003cbr\u003eHarry", "value": 7}, {"font": {"color": "white"}, "id": "McGonagall", "label": "McGonagall", "shape": "dot", "title": "McGonagall Neighbors:\u003cbr\u003eRon\u003cbr\u003eVoldemort\u003cbr\u003eDumbledore\u003cbr\u003eDraco\u003cbr\u003eSnape\u003cbr\u003eHagrid\u003cbr\u003eHermione\u003cbr\u003eNeville\u003cbr\u003eMalfoy\u003cbr\u003eHarry", "value": 10}, {"font": {"color": "white"}, "id": "Harry", "label": "Harry", "shape": "dot", "title": "Harry Neighbors:\u003cbr\u003eDumbledore\u003cbr\u003eVoldemort\u003cbr\u003eDraco\u003cbr\u003eSnape\u003cbr\u003eHagrid\u003cbr\u003eHermione\u003cbr\u003eNeville\u003cbr\u003eMcGonagall\u003cbr\u003eMalfoy\u003cbr\u003eRon", "value": 10}, {"font": {"color": "white"}, "id": "Hagrid", "label": "Hagrid", "shape": "dot", "title": "Hagrid Neighbors:\u003cbr\u003eRon\u003cbr\u003eVoldemort\u003cbr\u003eDumbledore\u003cbr\u003eDraco\u003cbr\u003eSnape\u003cbr\u003eHermione\u003cbr\u003eNeville\u003cbr\u003eMcGonagall\u003cbr\u003eMalfoy\u003cbr\u003eHarry", "value": 10}, {"font": {"color": "white"}, "id": "Sirius", "label": "Sirius", "shape": "dot", "title": "Sirius Neighbors:\u003cbr\u003eDumbledore", "value": 1}, {"font": {"color": "white"}, "id": "Ron", "label": "Ron", "shape": "dot", "title": "Ron Neighbors:\u003cbr\u003eDumbledore\u003cbr\u003eDraco\u003cbr\u003eVoldemort\u003cbr\u003eSnape\u003cbr\u003eHagrid\u003cbr\u003eHermione\u003cbr\u003eNeville\u003cbr\u003eMcGonagall\u003cbr\u003eMalfoy\u003cbr\u003eHarry", "value": 10}, {"font": {"color": "white"}, "id": "Grindelwald", "label": "Grindelwald", "shape": "dot", "title": "Grindelwald Neighbors:\u003cbr\u003eDumbledore", "value": 1}, {"font": {"color": "white"}, "id": "Hermione", "label": "Hermione", "shape": "dot", "title": "Hermione Neighbors:\u003cbr\u003eHarry\u003cbr\u003eDumbledore\u003cbr\u003eVoldemort\u003cbr\u003eSnape\u003cbr\u003eHagrid\u003cbr\u003eNeville\u003cbr\u003eMcGonagall\u003cbr\u003eMalfoy\u003cbr\u003eRon", "value": 9}, {"font": {"color": "white"}, "id": "Neville", "label": "Neville", "shape": "dot", "title": "Neville Neighbors:\u003cbr\u003eHarry\u003cbr\u003eDumbledore\u003cbr\u003eDraco\u003cbr\u003eSnape\u003cbr\u003eHagrid\u003cbr\u003eHermione\u003cbr\u003eMcGonagall\u003cbr\u003eMalfoy\u003cbr\u003eRon", "value": 9}, {"font": {"color": "white"}, "id": "Draco", "label": "Draco", "shape": "dot", "title": "Draco Neighbors:\u003cbr\u003eHarry\u003cbr\u003eSnape\u003cbr\u003eHagrid\u003cbr\u003eNeville\u003cbr\u003eMcGonagall\u003cbr\u003eMalfoy\u003cbr\u003eRon", "value": 7}, {"font": {"color": "white"}, "id": "Malfoy", "label": "Malfoy", "shape": "dot", "title": "Malfoy Neighbors:\u003cbr\u003eRon\u003cbr\u003eDumbledore\u003cbr\u003eDraco\u003cbr\u003eSnape\u003cbr\u003eHagrid\u003cbr\u003eHermione\u003cbr\u003eNeville\u003cbr\u003eMcGonagall\u003cbr\u003eHarry", "value": 9}, {"font": {"color": "white"}, "id": "Snape", "label": "Snape", "shape": "dot", "title": "Snape Neighbors:\u003cbr\u003eHarry\u003cbr\u003eDumbledore\u003cbr\u003eDraco\u003cbr\u003eVoldemort\u003cbr\u003eHagrid\u003cbr\u003eHermione\u003cbr\u003eNeville\u003cbr\u003eMcGonagall\u003cbr\u003eMalfoy\u003cbr\u003eRon", "value": 10}]);
+        edges = new vis.DataSet([{"from": "Dumbledore", "to": "Voldemort", "value": 4}, {"from": "McGonagall", "to": "Voldemort", "value": 3}, {"from": "Dumbledore", "to": "McGonagall", "value": 17}, {"from": "Harry", "to": "Voldemort", "value": 15}, {"from": "Harry", "to": "McGonagall", "value": 35}, {"from": "Dumbledore", "to": "Hagrid", "value": 20}, {"from": "Hagrid", "to": "McGonagall", "value": 9}, {"from": "Dumbledore", "to": "Harry", "value": 42}, {"from": "Dumbledore", "to": "Sirius", "value": 1}, {"from": "Hagrid", "to": "Harry", "value": 126}, {"from": "Hagrid", "to": "Voldemort", "value": 4}, {"from": "Harry", "to": "Ron", "value": 187}, {"from": "Dumbledore", "to": "Ron", "value": 10}, {"from": "Dumbledore", "to": "Grindelwald", "value": 1}, {"from": "Hermione", "to": "Neville", "value": 24}, {"from": "Dumbledore", "to": "Neville", "value": 3}, {"from": "Dumbledore", "to": "Hermione", "value": 6}, {"from": "Harry", "to": "Neville", "value": 42}, {"from": "Harry", "to": "Hermione", "value": 117}, {"from": "Draco", "to": "Malfoy", "value": 9}, {"from": "Malfoy", "to": "Ron", "value": 25}, {"from": "Draco", "to": "Ron", "value": 1}, {"from": "Harry", "to": "Malfoy", "value": 44}, {"from": "Hermione", "to": "Malfoy", "value": 10}, {"from": "Hermione", "to": "Ron", "value": 88}, {"from": "Hagrid", "to": "Hermione", "value": 21}, {"from": "Hagrid", "to": "Neville", "value": 8}, {"from": "Hagrid", "to": "Ron", "value": 26}, {"from": "Neville", "to": "Ron", "value": 21}, {"from": "Hermione", "to": "McGonagall", "value": 5}, {"from": "McGonagall", "to": "Ron", "value": 8}, {"from": "Harry", "to": "Snape", "value": 62}, {"from": "Malfoy", "to": "Snape", "value": 11}, {"from": "Ron", "to": "Snape", "value": 26}, {"from": "Hagrid", "to": "Snape", "value": 14}, {"from": "Draco", "to": "Snape", "value": 1}, {"from": "Hagrid", "to": "Malfoy", "value": 10}, {"from": "Draco", "to": "Hagrid", "value": 2}, {"from": "McGonagall", "to": "Snape", "value": 7}, {"from": "Hermione", "to": "Snape", "value": 22}, {"from": "Neville", "to": "Snape", "value": 6}, {"from": "Malfoy", "to": "Neville", "value": 18}, {"from": "Draco", "to": "Harry", "value": 3}, {"from": "Draco", "to": "Neville", "value": 2}, {"from": "Malfoy", "to": "McGonagall", "value": 4}, {"from": "Dumbledore", "to": "Snape", "value": 9}, {"from": "McGonagall", "to": "Neville", "value": 3}, {"from": "Dumbledore", "to": "Malfoy", "value": 1}, {"from": "Draco", "to": "McGonagall", "value": 1}, {"from": "Snape", "to": "Voldemort", "value": 6}, {"from": "Ron", "to": "Voldemort", "value": 3}, {"from": "Hermione", "to": "Voldemort", "value": 2}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": true,
+            "type": "dynamic"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
