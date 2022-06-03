@@ -1,0 +1,116 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 750px;
+            background-color: #222222;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": "white"}, "id": "Sturm", "label": "Sturm", "shape": "dot", "title": "Sturm Neighbors:\u003cbr\u003eCaramon\u003cbr\u003eLaurana\u003cbr\u003eTas\u003cbr\u003eGunthar\u003cbr\u003eSilvara\u003cbr\u003eElistan\u003cbr\u003eFlint\u003cbr\u003eDerek\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eGilthanas\u003cbr\u003eRaistlin", "value": 12}, {"font": {"color": "white"}, "id": "Tanis", "label": "Tanis", "shape": "dot", "title": "Tanis Neighbors:\u003cbr\u003eSturm\u003cbr\u003eCaramon\u003cbr\u003eLaurana\u003cbr\u003eTas\u003cbr\u003eElistan\u003cbr\u003eFlint\u003cbr\u003eDerek\u003cbr\u003eAlhana\u003cbr\u003eGilthanas\u003cbr\u003eRaistlin", "value": 10}, {"font": {"color": "white"}, "id": "Elistan", "label": "Elistan", "shape": "dot", "title": "Elistan Neighbors:\u003cbr\u003eSturm\u003cbr\u003eCaramon\u003cbr\u003eLaurana\u003cbr\u003eTas\u003cbr\u003eGunthar\u003cbr\u003eSilvara\u003cbr\u003eDerek\u003cbr\u003eTanis\u003cbr\u003eGilthanas\u003cbr\u003eRaistlin", "value": 10}, {"font": {"color": "white"}, "id": "Flint", "label": "Flint", "shape": "dot", "title": "Flint Neighbors:\u003cbr\u003eCaramon\u003cbr\u003eSturm\u003cbr\u003eLaurana\u003cbr\u003eTas\u003cbr\u003eDerek\u003cbr\u003eTanis\u003cbr\u003eGilthanas\u003cbr\u003eRaistlin", "value": 8}, {"font": {"color": "white"}, "id": "Raistlin", "label": "Raistlin", "shape": "dot", "title": "Raistlin Neighbors:\u003cbr\u003eSturm\u003cbr\u003eCaramon\u003cbr\u003eLaurana\u003cbr\u003eTas\u003cbr\u003eElistan\u003cbr\u003eFlint\u003cbr\u003eTanis", "value": 7}, {"font": {"color": "white"}, "id": "Caramon", "label": "Caramon", "shape": "dot", "title": "Caramon Neighbors:\u003cbr\u003eSturm\u003cbr\u003eLaurana\u003cbr\u003eElistan\u003cbr\u003eFlint\u003cbr\u003eTanis\u003cbr\u003eAlhana\u003cbr\u003eRaistlin", "value": 7}, {"font": {"color": "white"}, "id": "Laurana", "label": "Laurana", "shape": "dot", "title": "Laurana Neighbors:\u003cbr\u003eSturm\u003cbr\u003eCaramon\u003cbr\u003eTas\u003cbr\u003eGunthar\u003cbr\u003eSilvara\u003cbr\u003eElistan\u003cbr\u003eFlint\u003cbr\u003eDerek\u003cbr\u003eTanis\u003cbr\u003eGilthanas\u003cbr\u003eRaistlin", "value": 11}, {"font": {"color": "white"}, "id": "Gilthanas", "label": "Gilthanas", "shape": "dot", "title": "Gilthanas Neighbors:\u003cbr\u003eSturm\u003cbr\u003eLaurana\u003cbr\u003eTas\u003cbr\u003eSilvara\u003cbr\u003eElistan\u003cbr\u003eFlint\u003cbr\u003eDerek\u003cbr\u003eTanis\u003cbr\u003eAlhana", "value": 9}, {"font": {"color": "white"}, "id": "Tas", "label": "Tas", "shape": "dot", "title": "Tas Neighbors:\u003cbr\u003eSturm\u003cbr\u003eLaurana\u003cbr\u003eGunthar\u003cbr\u003eSilvara\u003cbr\u003eElistan\u003cbr\u003eFlint\u003cbr\u003eDerek\u003cbr\u003eTanis\u003cbr\u003eGilthanas\u003cbr\u003eRaistlin", "value": 10}, {"font": {"color": "white"}, "id": "Alhana", "label": "Alhana", "shape": "dot", "title": "Alhana Neighbors:\u003cbr\u003eSturm\u003cbr\u003eTanis\u003cbr\u003eCaramon\u003cbr\u003eGilthanas", "value": 4}, {"font": {"color": "white"}, "id": "Derek", "label": "Derek", "shape": "dot", "title": "Derek Neighbors:\u003cbr\u003eSturm\u003cbr\u003eLaurana\u003cbr\u003eTas\u003cbr\u003eGunthar\u003cbr\u003eElistan\u003cbr\u003eFlint\u003cbr\u003eSilvara\u003cbr\u003eTanis\u003cbr\u003eGilthanas", "value": 9}, {"font": {"color": "white"}, "id": "Silvara", "label": "Silvara", "shape": "dot", "title": "Silvara Neighbors:\u003cbr\u003eSturm\u003cbr\u003eLaurana\u003cbr\u003eTas\u003cbr\u003eElistan\u003cbr\u003eDerek\u003cbr\u003eGilthanas", "value": 6}, {"font": {"color": "white"}, "id": "Gunthar", "label": "Gunthar", "shape": "dot", "title": "Gunthar Neighbors:\u003cbr\u003eSturm\u003cbr\u003eLaurana\u003cbr\u003eTas\u003cbr\u003eElistan\u003cbr\u003eDerek", "value": 5}]);
+        edges = new vis.DataSet([{"from": "Sturm", "to": "Tanis", "value": 94}, {"from": "Elistan", "to": "Tanis", "value": 30}, {"from": "Flint", "to": "Tanis", "value": 27}, {"from": "Raistlin", "to": "Tanis", "value": 103}, {"from": "Raistlin", "to": "Sturm", "value": 25}, {"from": "Elistan", "to": "Raistlin", "value": 8}, {"from": "Flint", "to": "Raistlin", "value": 10}, {"from": "Caramon", "to": "Raistlin", "value": 74}, {"from": "Elistan", "to": "Sturm", "value": 16}, {"from": "Laurana", "to": "Sturm", "value": 106}, {"from": "Elistan", "to": "Laurana", "value": 52}, {"from": "Laurana", "to": "Tanis", "value": 83}, {"from": "Laurana", "to": "Raistlin", "value": 23}, {"from": "Caramon", "to": "Sturm", "value": 9}, {"from": "Caramon", "to": "Tanis", "value": 75}, {"from": "Gilthanas", "to": "Laurana", "value": 50}, {"from": "Gilthanas", "to": "Tanis", "value": 20}, {"from": "Caramon", "to": "Flint", "value": 7}, {"from": "Sturm", "to": "Tas", "value": 37}, {"from": "Flint", "to": "Sturm", "value": 49}, {"from": "Tanis", "to": "Tas", "value": 39}, {"from": "Flint", "to": "Tas", "value": 52}, {"from": "Laurana", "to": "Tas", "value": 66}, {"from": "Raistlin", "to": "Tas", "value": 10}, {"from": "Gilthanas", "to": "Sturm", "value": 27}, {"from": "Caramon", "to": "Laurana", "value": 12}, {"from": "Caramon", "to": "Elistan", "value": 6}, {"from": "Elistan", "to": "Gilthanas", "value": 11}, {"from": "Gilthanas", "to": "Tas", "value": 10}, {"from": "Flint", "to": "Gilthanas", "value": 14}, {"from": "Alhana", "to": "Tanis", "value": 48}, {"from": "Alhana", "to": "Gilthanas", "value": 8}, {"from": "Alhana", "to": "Sturm", "value": 28}, {"from": "Derek", "to": "Sturm", "value": 85}, {"from": "Derek", "to": "Tanis", "value": 6}, {"from": "Derek", "to": "Tas", "value": 11}, {"from": "Flint", "to": "Laurana", "value": 42}, {"from": "Elistan", "to": "Tas", "value": 10}, {"from": "Alhana", "to": "Caramon", "value": 7}, {"from": "Derek", "to": "Flint", "value": 9}, {"from": "Derek", "to": "Laurana", "value": 25}, {"from": "Derek", "to": "Elistan", "value": 5}, {"from": "Derek", "to": "Gilthanas", "value": 9}, {"from": "Laurana", "to": "Silvara", "value": 74}, {"from": "Silvara", "to": "Tas", "value": 12}, {"from": "Derek", "to": "Silvara", "value": 7}, {"from": "Elistan", "to": "Silvara", "value": 5}, {"from": "Gilthanas", "to": "Silvara", "value": 53}, {"from": "Silvara", "to": "Sturm", "value": 6}, {"from": "Gunthar", "to": "Sturm", "value": 42}, {"from": "Derek", "to": "Gunthar", "value": 22}, {"from": "Gunthar", "to": "Tas", "value": 8}, {"from": "Elistan", "to": "Gunthar", "value": 12}, {"from": "Gunthar", "to": "Laurana", "value": 14}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
